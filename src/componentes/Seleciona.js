@@ -32,7 +32,6 @@ export default function SimpleSelect(props) {
 
   return (
       <div>
-    {console.log('props=> ',props)}
       <FormControl variant="outlined" className={classes.formControl}>
         <InputLabel ref={inputLabel} id="demo-simple-select-outlined-label">
           Seleciona Tipo

@@ -36,13 +36,11 @@ const validations = yup.object().shape({
 })
 
 export default function Formulario() {
-    const [tipo, setTipo] = React.useState("");
    const  classes  = useStyles();
-   console.log('valor',tipo)
     return (
         <div>
           <Card className={classes.card}> 
-           <Formik initialValues={{nome: '', sobreNome: '', isAlto:false, comidas: [], estudante:'', tipo: tipo}} 
+           <Formik initialValues={{nome: '', sobreNome: '', isAlto:false, comidas: [], estudante:'', tipo: ''}} 
                    onSubmit={handleSubmit} 
                    validationSchema={validations}>
             <FormikForm >
@@ -50,7 +48,7 @@ export default function Formulario() {
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                  Formulário de cadastro
                </Typography>
-               
+
                 <div>
                   <Field  fullWidth name='nome' placeholder="Entre com o seu nome" as={TextField} />
                   <ErrorMessage component="spanError" name="nome" />
@@ -88,7 +86,7 @@ export default function Formulario() {
                 </div> 
 
                 <div>
-                    <Field  name='tipo' component={Seleciona} seleciona={setTipo} />
+                    <Field  name='tipo' component={Seleciona}  />
                     <ErrorMessage component='spanError' name='tipo' />
                 </div> 
 
