@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
-import { Formik, Field, Form as FormikForm }  from 'formik'
+import { Formik, Field, ErrorMessage,  Form as FormikForm }  from 'formik'
+import * as yup from 'yup'
 import TextField from '@material-ui/core/TextField'
 import { Button, Card, CardContent, Typography, Checkbox, Radio } from '@material-ui/core';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import {SimpleSelectFormik as Seleciona} from './Seleciona'
 
 const useStyles = makeStyles({
     card: {
@@ -28,23 +29,36 @@ const useStyles = makeStyles({
   
 const  handleSubmit = values => alert(JSON.stringify(values))
 
+const validations = yup.object().shape({
+    nome: yup.string().required('O nome é obrigatório'),
+    sobreNome: yup.string().required('O sobre nome é obrigatório'),
+    tipo: yup.string().required(' você deve seleciona um tipo ')
+})
 
 export default function Formulario() {
+    const [tipo, setTipo] = React.useState("");
    const  classes  = useStyles();
+   console.log('valor',tipo)
     return (
         <div>
           <Card className={classes.card}> 
-           <Formik initialValues={{nome: '', sobreNome: '', isAlto:false, comidas: [], estudante:''}} onSubmit={handleSubmit} >
-            <FormikForm>
+           <Formik initialValues={{nome: '', sobreNome: '', isAlto:false, comidas: [], estudante:'', tipo: tipo}} 
+                   onSubmit={handleSubmit} 
+                   validationSchema={validations}>
+            <FormikForm >
                 <CardContent> 
                 <Typography className={classes.title} color="textSecondary" gutterBottom>
                  Formulário de cadastro
                </Typography>
+               
                 <div>
                   <Field  fullWidth name='nome' placeholder="Entre com o seu nome" as={TextField} />
+                  <ErrorMessage component="spanError" name="nome" />
                 </div>
+
                 <div>
                   <Field fullWidth name='sobreNome' placeholder='Entre com o seu sobre nome' as={TextField} />
+                  <ErrorMessage component="spanError" name="sobreNome" />
                 </div>
 
                 <div>
@@ -72,7 +86,12 @@ export default function Formulario() {
                      Não
                     <Field color='primary' name='estudante' value='nao' type='radio' as={Radio} />
                 </div> 
-               
+
+                <div>
+                    <Field  name='tipo' component={Seleciona} seleciona={setTipo} />
+                    <ErrorMessage component='spanError' name='tipo' />
+                </div> 
+
                 <div>
                     <Button  type="submit">Enviar</Button>
                 </div>
